@@ -6,9 +6,13 @@
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
             <field name="zip" position="attributes">
-                <attribute name="invisible">1</attribute></field>
+                <attribute name="invisible">1</attribute>
+            </field>
             <field name="street" position="before">
                 <field class="o_address_zip oe_inline" name="zip" placeholder="ZIP"/>
-                <button aria-label="Pesquisar CEP" class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline" invisible="country_id != %(base.br)d" name="zip_search" title="Pesquisar CEP" type="object"/></field></field>
+                <button aria-label="Pesquisar CEP" class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
+                        invisible="country_id != %(base.br)d" name="zip_search" title="Pesquisar CEP" type="object"/>
+            </field>
+        </field>
     </record>
 </odoo>

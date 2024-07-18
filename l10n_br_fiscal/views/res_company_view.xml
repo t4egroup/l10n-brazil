@@ -48,19 +48,19 @@
                         <page name="taxes" string="Taxes">
                             <group name="normal_taxes" string="Default Taxes">
                                 <group name="piscofins_taxes" string="PIS/COFINS">
-                                    <field domain="{'3': [('piscofins_type', '=', 'company'), ('id', '!=', %(l10n_br_fiscal.tax_pis_cofins_simples_nacional)d)]}.get(tax_framework, [('piscofins_type', '=', 'company'), ('id', '=', %(l10n_br_fiscal.tax_pis_cofins_simples_nacional)d)])" name="piscofins_id" options="{'no_create': True, 'no_create_edit': True}" required="1"/>
+                                    <field name="piscofins_id" options="{'no_create': True, 'no_create_edit': True}" required="1"/>
                                     <field name="tax_pis_wh_id"/>
                                     <field name="tax_cofins_wh_id"/>
                                 </group>
                                 <group name="ipi_taxes" string="IPI">
                                     <field invisible="tax_framework != '3'" name="ripi"/>
-                                    <field domain="{'3': [('id', '!=', %(l10n_br_fiscal.tax_ipi_outros)d), ('tax_group_id', '=', %(l10n_br_fiscal.tax_group_ipi)d)]}.get(tax_framework, [('id', '=', %(l10n_br_fiscal.tax_ipi_outros)d)])" invisible="tax_framework == '3' and ripi == True" name="tax_ipi_id" required="tax_framework != '3'"/>
+                                    <field invisible="tax_framework == '3' and ripi == True" name="tax_ipi_id" required="tax_framework != '3'"/>
                                     <div class="text-muted" colspan="2" invisible="ripi == False">
                                         IPI tax will be calculed by Product NCM and Fiscal Operation.
                                     </div>
                                 </group>
                                 <group name="icms_taxes" string="ICMS">
-                                    <field domain="{'3': [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icms)d)]}.get(tax_framework, [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icmssn)d)])" invisible="tax_framework == '3'" name="tax_icms_id" options="{'no_create': True, 'no_create_edit': True}" required="tax_framework in ('1', '2')"/>
+                                    <field invisible="tax_framework == '3'" name="tax_icms_id" options="{'no_create': True, 'no_create_edit': True}" required="tax_framework in ('1', '2')"/>
                                     <field invisible="tax_framework != '3'" name="icms_regulation_id" options="{'no_create': True, 'no_create_edit': True}" required="tax_framework == '3'"/>
                                 </group>
                                 <group name="issqn_taxes" string="ISSQN">
