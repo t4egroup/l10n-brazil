@@ -1,40 +1,27 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright 2019 KMEE INFORMATICA LTDA
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="nfse_document_form_inherit" model="ir.ui.view">
         <field name="name">l10n_br_nfse.document.form.inherit</field>
         <field name="model">l10n_br_fiscal.document</field>
-        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
         <field name="arch" type="xml">
             <field name="status_description" position="after">
-                <field name="edoc_error_message" />
-            </field>
+                <field name="edoc_error_message"/></field>
             <group name="document_header_right" position="before">
-                <group
-                    name="nfse_operation"
-                    attrs="{'invisible': [('document_type', '!=', 'SE')]}"
-                >
-                    <field name="operation_nature" />
-                    <field name="taxation_special_regime" />
+                <group invisible="document_type != 'SE'" name="nfse_operation">
+                    <field name="operation_nature"/>
+                    <field name="taxation_special_regime"/>
                 </group>
-                <group
-                    name="nfse_info"
-                    attrs="{'invisible': [('document_type', '!=', 'SE')]}"
-                >
-                    <field
-                        name="verify_code"
-                        attrs="{'invisible': [('document_type', '!=', 'SE')]}"
-                    />
-                    <field name="rps_number" force_save="1" readonly="1" />
-                    <field name="rps_type" />
-                    <field name="nfse_environment" readonly="1" />
-                    <field name="civil_construction_code" />
-                    <field name="civil_construction_art" />
+                <group invisible="document_type != 'SE'" name="nfse_info">
+                    <field invisible="document_type != 'SE'" name="verify_code"/>
+                    <field force_save="1" name="rps_number" readonly="1"/>
+                    <field name="rps_type"/>
+                    <field name="nfse_environment" readonly="1"/>
+                    <field name="civil_construction_code"/>
+                    <field name="civil_construction_art"/>
                 </group>
-            </group>
-        </field>
+            </group></field>
     </record>
-
 </odoo>

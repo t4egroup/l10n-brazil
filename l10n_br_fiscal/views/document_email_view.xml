@@ -1,48 +1,36 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="document_email_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.document.email.tree</field>
         <field name="model">l10n_br_fiscal.document.email</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" />
-                <field name="document_type_id" />
-                <field name="issuer" />
-                <field name="state_edoc" />
-                <field name="email_template_id" />
-            </tree>
-        </field>
+                <field name="name"/>
+                <field name="document_type_id"/>
+                <field name="issuer"/>
+                <field name="state_edoc"/>
+                <field name="email_template_id"/>
+            </tree></field>
     </record>
-
     <record id="document_email_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.document.email.form</field>
         <field name="model">l10n_br_fiscal.document.email</field>
         <field name="arch" type="xml">
             <form string="Fiscal Document Email">
-                <field name="id" invisible="1" />
+                <field invisible="1" name="id"/>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-
-            <field name="active" invisible="1" />
-            <widget
-                            name="web_ribbon"
-                            title="Archived"
-                            bg_color="bg-danger"
-                            attrs="{'invisible': [('active', '=', True)]}"
-                        />
-
+                        <field invisible="1" name="active"/>
+                        <widget bg_color="bg-danger" invisible="active == True" name="web_ribbon" title="Archived"/>
                     </div>
                     <group>
-                        <field name="document_type_id" />
-                        <field name="issuer" />
-                        <field name="state_edoc" />
-                        <field name="email_template_id" />
-                        <field name="company_id" groups="base.group_multi_company" />
+                        <field name="document_type_id"/>
+                        <field name="issuer"/>
+                        <field name="state_edoc"/>
+                        <field name="email_template_id"/>
+                        <field groups="base.group_multi_company" name="company_id"/>
                     </group>
                 </sheet>
-            </form>
-        </field>
+            </form></field>
     </record>
-
 </odoo>

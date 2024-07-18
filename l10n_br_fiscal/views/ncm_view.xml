@@ -1,174 +1,134 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="ncm_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.ncm.search</field>
         <field name="model">l10n_br_fiscal.ncm</field>
         <field name="arch" type="xml">
             <search string="NCM">
-                <field name="code" />
-                <field name="name" />
-                <field name="exception" />
-                <group expand='0' string='Group By...'>
-                    <filter
-                        string='IPI'
-                        name="tax_ipi_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_ipi_id'}"
-                    />
-                    <filter
-                        string='II'
-                        name="tax_ii_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_ii_id'}"
-                    />
+                <field name="code"/>
+                <field name="name"/>
+                <field name="exception"/>
+                <group expand="0" string="Group By...">
+                    <filter context="{'group_by' : 'tax_ipi_id'}" domain="[]" name="tax_ipi_id" string="IPI"/>
+                    <filter context="{'group_by' : 'tax_ii_id'}" domain="[]" name="tax_ii_id" string="II"/>
                 </group>
-            </search>
-        </field>
+            </search></field>
     </record>
-
     <record id="ncm_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.ncm.tree</field>
         <field name="model">l10n_br_fiscal.ncm</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="code" />
-                <field name="name" />
-                <field name="exception" />
-                <field name="tax_ipi_id" />
-                <field name="tax_ii_id" />
-                <field name="uoe_id" />
-                <field name="uot_id" />
-            </tree>
-        </field>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="exception"/>
+                <field name="tax_ipi_id"/>
+                <field name="tax_ii_id"/>
+                <field name="uoe_id"/>
+                <field name="uot_id"/>
+            </tree></field>
     </record>
-
     <record id="ncm_kanban" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.ncm.kanban</field>
         <field name="model">l10n_br_fiscal.ncm</field>
         <field name="arch" type="xml">
             <kanban>
-                <field name="id" />
-                <field name="code" />
-                <field name="name" />
-                <field name="exception" />
-                <field name="tax_ipi_id" />
-                <field name="tax_ii_id" />
-                <field name="uoe_id" />
-                <field name="uot_id" />
-                <field name="product_tmpl_qty" />
+                <field name="id"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="exception"/>
+                <field name="tax_ipi_id"/>
+                <field name="tax_ii_id"/>
+                <field name="uoe_id"/>
+                <field name="uot_id"/>
+                <field name="product_tmpl_qty"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
                             <div class="oe_kanban_details">
                                 <strong class="o_kanban_record_title">
-                                    <h2><field name="code" /></h2>
+                                    <h2>
+                                        <field name="code"/>
+                                    </h2>
                                 </strong>
                                 <strong class="o_kanban_record_title">
-                                    <field name="name" />
+                                    <field name="name"/>
                                 </strong>
-                                <div t-if="record.product_tmpl_qty.value &gt;= 1">
+                                <div t-if="record.product_tmpl_qty.value >= 1">
                                     <strong>
-                                        <t
-                                            t-esc="record.product_tmpl_qty.value"
-                                        /> Product(s)
+                                        <t t-esc="record.product_tmpl_qty.value"/>
+                                        Product(s)
                                     </strong>
                                 </div>
                                 <div>
-                                    <field name="tax_ipi_id" /><span
-                                        t-if="record.tax_ii_id.value"
-                                    > - </span>
-                                    <field name="tax_ii_id" /><span
-                                        t-if="record.uoe_id.value"
-                                    > - </span>
-                                    <field name="uoe_id" />
-                                    <field name="uot_id" />
+                                    <field name="tax_ipi_id"/>
+                                    <span t-if="record.tax_ii_id.value">
+                                        -
+                                    </span>
+                                    <field name="tax_ii_id"/>
+                                    <span t-if="record.uoe_id.value">
+                                        -
+                                    </span>
+                                    <field name="uoe_id"/>
+                                    <field name="uot_id"/>
                                 </div>
                             </div>
                         </div>
                     </t>
                 </templates>
-            </kanban>
-        </field>
+            </kanban></field>
     </record>
-
     <record id="ncm_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.ncm.form</field>
         <field name="model">l10n_br_fiscal.ncm</field>
         <field name="arch" type="xml">
             <form string="NCM">
                 <sheet>
-                    <widget
-                        name="web_ribbon"
-                        title="Archived"
-                        bg_color="bg-danger"
-                        attrs="{'invisible': [('active', '=', True)]}"
-                    />
+                    <widget bg_color="bg-danger" invisible="active == True" name="web_ribbon" title="Archived"/>
                     <div class="oe_button_box" name="button_box">
-                        <button
-                            name="action_ibpt_inquiry"
-                            string="Update Tax Estimate"
-                            type="object"
-                            invisible="0"
-                            class="oe_stat_button"
-                            icon="fa-file"
-                        />
-                        <button
-                            type="action"
-                            class="oe_stat_button"
-                            id="product_tmpl_button"
-                            icon="fa-bars"
-                            name="%(product.product_template_action_all)d"
-                            context="{'search_default_ncm_id': active_id}"
-                            attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}"
-                        >
-                            <field
-                                string="Products"
-                                widget="statinfo"
-                                name="product_tmpl_qty"
-                            />
+                        <button class="oe_stat_button" icon="fa-file" invisible="0" name="action_ibpt_inquiry" string="Update Tax Estimate" type="object"/>
+                        <button class="oe_stat_button" context="{'search_default_ncm_id': active_id}" icon="fa-bars" id="product_tmpl_button" invisible="product_tmpl_qty == 0" name="%(product.product_template_action_all)d" type="action">
+                            <field name="product_tmpl_qty" string="Products" widget="statinfo"/>
                         </button>
                     </div>
                     <group>
-                        <field name="active" invisible="1" />
-                        <field name="code" readonly="1" />
-                        <field name="name" readonly="1" />
-                        <field name="exception" readonly="1" />
-                        <field name="tax_ipi_id" readonly="1" />
-                        <field name="tax_ii_id" readonly="1" />
-                        <field name="uoe_id" readonly="1" />
-                        <field name="uot_id" readonly="1" />
+                        <field invisible="1" name="active"/>
+                        <field name="code" readonly="1"/>
+                        <field name="name" readonly="1"/>
+                        <field name="exception" readonly="1"/>
+                        <field name="tax_ipi_id" readonly="1"/>
+                        <field name="tax_ii_id" readonly="1"/>
+                        <field name="uoe_id" readonly="1"/>
+                        <field name="uot_id" readonly="1"/>
                     </group>
                     <notebook>
-                        <page string="Related Produts" name="tax_product_tmpl">
-                            <field name="product_tmpl_ids" />
+                        <page name="tax_product_tmpl" string="Related Produts">
+                            <field name="product_tmpl_ids"/>
                         </page>
-                        <page string="Related CEST" name="cest">
-                            <field name="cest_ids" />
+                        <page name="cest" string="Related CEST">
+                            <field name="cest_ids"/>
                         </page>
-                        <page string="Custom PIS/COFINS" name="pis_cofins">
-                            <field name="piscofins_ids" />
+                        <page name="pis_cofins" string="Custom PIS/COFINS">
+                            <field name="piscofins_ids"/>
                         </page>
-                        <page string="Estimate Taxes" name="tax_estimate">
+                        <page name="tax_estimate" string="Estimate Taxes">
                             <group>
                                 <group>
-                                    <field name="estimate_tax_national" />
+                                    <field name="estimate_tax_national"/>
                                 </group>
                                 <group>
-                                    <field name="estimate_tax_imported" />
+                                    <field name="estimate_tax_imported"/>
                                 </group>
                             </group>
-                            <field name="tax_estimate_ids" />
+                            <field name="tax_estimate_ids"/>
                         </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids" groups="base.group_user" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
+                    <field groups="base.group_user" name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
                 </div>
-            </form>
-        </field>
+            </form></field>
     </record>
-
 </odoo>
