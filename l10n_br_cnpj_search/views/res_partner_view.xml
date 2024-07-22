@@ -11,11 +11,15 @@
             <field name="cnae_main_id" position="after">
                 <field name="cnae_secondary_ids" widget="many2many_tags"/>
                 <field name="equity_capital" widget="monetary"/>
-                <field name="legal_nature"/></field>
+                <field name="legal_nature"/>
+            </field>
             <field name="cnpj_cpf" position="replace">
-                <div class="o_row" colspan="4">
+                <div class="o_row" colspan="1">
                     <field name="cnpj_cpf" nolabel="1"/>
-                    <button aria-label="Pesquisar CNPJ" class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline" invisible="country_id != %(base.br)d and is_company != True" name="action_open_cnpj_search_wizard" title="Pesquisar CNPJ" type="object"/>
-                </div></field></field>
+                    <button aria-label="Pesquisar CNPJ" class="btn-sm btn-primary py-2 mb4 fa fa-search oe_edit_only oe_inline" invisible="country_id != %(base.br)d and is_company != True or is_company != True" name="action_open_cnpj_search_wizard" title="Pesquisar CNPJ" type="object"/>
+                </div>
+            </field>
+        </field>
+            
     </record>
 </odoo>

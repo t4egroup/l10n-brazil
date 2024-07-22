@@ -9,4 +9,25 @@
             <field name="zip" position="after">
                 <button aria-label="Pesquisar CEP" class="btn-sm btn-link mb4 fa fa-search oe_edit_only" invisible="country_id != %(base.br)d" name="zip_search" title="Pesquisar CEP" type="object"/></field></field>
     </record>
+    <record id="l10n_br_base_partner_form" model="ir.ui.view">
+        <field name="name">l10n_br_zip.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form" />
+        <field name="arch" type="xml">
+            <field name="zip" position="replace">
+                <label for="zip" string="CEP" />
+                        <div class="o_row" colspan="1">
+                            <field
+                            name="zip"
+                            placeholder="CEP"
+                            class="o_address_zip" 
+                        />
+                        <button aria-label="Pesquisar CEP" class="btn-sm btn-primary py-2 mb4 fa fa-search oe_edit_only oe_inline"
+                        invisible="country_id != %(base.br)d" name="zip_search" title="Pesquisar CEP" type="object"/>
+                        </div>
+            </field>
+        </field>
+            
+    </record>
 </odoo>

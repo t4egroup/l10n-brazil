@@ -62,34 +62,34 @@ class DataAbstract(models.AbstractModel):
 
         return model_view
 
-    @api.model
-    def _name_search(
-        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
-    ):
-        if operator == "ilike" and not (name or "").strip():
-            domain = []
-        elif operator in ("ilike", "like", "=", "=like", "=ilike"):
-            domain = expression.AND(
-                [
-                    args or [],
-                    [
-                        "|",
-                        "|",
-                        ("name", operator, name),
-                        ("code", operator, name),
-                        ("code_unmasked", "ilike", name + "%"),
-                    ],
-                ]
-            )
-            return self._search(
-                expression.AND([domain, args]),
-                limit=limit,
-                access_rights_uid=name_get_uid,
-            )
+    # @api.model
+    # def _name_search(
+    #     self, name, args=None, operator="ilike", limit=100, name_get_uid=None
+    # ):
+    #     if operator == "ilike" and not (name or "").strip():
+    #         domain = []
+    #     elif operator in ("ilike", "like", "=", "=like", "=ilike"):
+    #         domain = expression.AND(
+    #             [
+    #                 args or [],
+    #                 [
+    #                     "|",
+    #                     "|",
+    #                     ("name", operator, name),
+    #                     ("code", operator, name),
+    #                     ("code_unmasked", "ilike", name + "%"),
+    #                 ],
+    #             ]
+    #         )
+    #         return self._search(
+    #             expression.AND([domain, args]),
+    #             limit=limit,
+    #             access_rights_uid=name_get_uid,
+    #         )
 
-        return super()._name_search(
-            name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
-        )
+    #     return super()._name_search(
+    #         name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
+    #     )
 
     def name_get(self):
         def truncate_name(name):

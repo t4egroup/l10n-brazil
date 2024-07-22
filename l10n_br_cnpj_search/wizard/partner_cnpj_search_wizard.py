@@ -21,6 +21,13 @@ class PartnerCnpjSearchWizard(models.TransientModel):
     cnpj_cpf = fields.Char()
     legal_name = fields.Char()
     name = fields.Char()
+    opening_date = fields.Char()
+    company_size = fields.Char()
+    situation = fields.Char()
+    associate_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.associate",
+        inverse_name="partner_id",
+    )
     inscr_est = fields.Char()
     zip = fields.Char()
     street_name = fields.Char()
@@ -65,6 +72,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         self.cnpj_cpf = cnpj_cpf.formata(str(self.cnpj_cpf))
 
     def _get_partner_values(self, cnpj_cpf):
+        print("Get partner values")
         webservice = self.env["l10n_br_cnpj_search.webservice.abstract"]
         provider_name = webservice.get_provider()
         try:
@@ -79,6 +87,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         values = webservice.import_data(data)
         values["provider_name"] = provider_name
         values["cnpj_cpf"] = cnpj_cpf
+        print("partner values before return", values)
         return values
 
     def default_get(self, fields):
@@ -90,12 +99,17 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         misc.punctuation_rm(self.zip)
         values = self._get_partner_values(cnpj_cpf)
         res.update(values)
+        print("return default get")
         return res
 
     def action_update_partner(self):
         values_to_update = {
             "legal_name": self.legal_name,
             "name": self.name,
+            "opening_date": self.opening_date,
+            "company_size": self.company_size,
+            "situation": self.situation,
+            "associate_ids": self.associate_ids,
             "inscr_est": self.inscr_est,
             "zip": self.zip,
             "street_name": self.street_name,
@@ -122,6 +136,8 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             key: value for key, value in values_to_update.items() if value
         }
         if non_empty_values:
+            self.partner_id.associate_ids.unlink()
+
             # Update partner only if there are non-empty values
             self.partner_id.write(non_empty_values)
         return {"type": "ir.actions.act_window_close"}

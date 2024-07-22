@@ -43,11 +43,9 @@
                         <field name="legal_nature" />
                         <field name="equity_capital" widget="monetary" />
                         <field name="cnae_main_id" string="Main CNAE" />
-                        <field
-                            name="cnae_secondary_ids"
-                            widget="many2many_tags"
-                            string="Secundary CNAE"
-                        />
+                        <field name="opening_date" string="Data de Abertura"/>
+                        <field name="company_size" string="Porte"/>
+                        <field name="situation" string="Situação Cadastral"/>
                         <field name="currency_id" invisible="1" />
                     </group>
                 </group>

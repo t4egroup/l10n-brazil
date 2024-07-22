@@ -96,6 +96,17 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
+    opening_date = fields.Char(string="Opening Date")
+
+    company_size = fields.Char(string="Company Size")
+
+    situation = fields.Char(string="Situation")
+
+    associate_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.associate",
+        inverse_name="partner_id",
+    )
+
     def _inverse_fiscal_profile(self):
         for p in self:
             p._onchange_fiscal_profile_id()

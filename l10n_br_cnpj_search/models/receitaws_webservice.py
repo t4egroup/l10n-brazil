@@ -33,10 +33,14 @@ class ReceitawsWebservice(models.AbstractModel):
         fantasy_name = self.get_data(data, "fantasia", title=True)
         phone, mobile = self._receitaws_get_phones(data)
         state_id, city_id = self._get_state_city(data)
-
+        print(data)
         res = {
             "legal_name": legal_name,
             "name": fantasy_name if fantasy_name else legal_name,
+            "opening_date": self.get_data(data, "abertura"),
+            "company_size": self.get_data(data, "porte"),
+            "situation": self.get_data(data, "situacao"),
+            "associate_ids": self._get_associates(data),
             "email": self.get_data(data, "email", lower=True),
             "street_name": self.get_data(data, "logradouro", title=True),
             "street2": self.get_data(data, "complemento", title=True),
@@ -50,7 +54,7 @@ class ReceitawsWebservice(models.AbstractModel):
             "city_id": city_id,
             "equity_capital": self.get_data(data, "capital_social"),
             "cnae_main_id": self._receitaws_get_cnae(data),
-            "cnae_secondary_ids": self._receitaws_get_secondary_cnae(data),
+            # "cnae_secondary_ids": (6, 0, self._receitaws_get_secondary_cnae(data)),
         }
 
         return res
@@ -106,6 +110,7 @@ class ReceitawsWebservice(models.AbstractModel):
     @api.model
     def _receitaws_get_secondary_cnae(self, data):
         cnae_secondary = []
+        print(data)
         for atividade in data.get("atividades_secundarias"):
             unformated = self.get_data(atividade, "code").split(".")
             formatted = ""
@@ -116,4 +121,23 @@ class ReceitawsWebservice(models.AbstractModel):
             if self._get_cnae(formatted) is not False:
                 cnae_secondary.append(self._get_cnae(formatted))
 
+        print("cnae secundario", cnae_secondary)
+
         return cnae_secondary
+
+    @api.model
+    def _get_associates(self, data):
+        associates = []
+        for associate in data.get("qsa"):
+            associates.append(
+                (
+                    0,
+                    0,
+                    {
+                        "name": associate.get("nome"),
+                        "qualification": associate.get("qual"),
+                    },
+                )
+            )
+
+        return associates

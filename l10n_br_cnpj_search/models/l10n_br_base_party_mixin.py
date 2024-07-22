@@ -11,6 +11,7 @@ class PartyMixin(models.AbstractModel):
     _inherit = "l10n_br_base.party.mixin"
 
     def action_open_cnpj_search_wizard(self):
+        print("chegou aqui")
         if not self.cnpj_cpf:
             raise UserError(_("Please enter your CNPJ"))
         if self.cnpj_validation_disabled():
@@ -24,7 +25,7 @@ class PartyMixin(models.AbstractModel):
             default_partner_id = self.id
         else:
             default_partner_id = self.partner_id.id
-
+        print("Antes do retorno")
         return {
             "name": "Search Data by CNPJ",
             "type": "ir.actions.act_window",
