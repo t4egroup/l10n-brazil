@@ -51,24 +51,17 @@
                         <field name="inscr_est" string="I.E" invisible="is_company != True" />
                     </group>
                     <group class="w-100" string="Endereço">
+                        <field name="street"/>
+                        <field class="o_address_zip" name="zip" placeholder="CEP" style="width: 70%"/>
+                        <field class="o_address_street" name="street_name" placeholder="Street..."/>
+                        <field class="o_address_street" name="street_number" placeholder="Street number..."/>
+                        <field class="o_address_street" name="street2" placeholder="Complement..."/>
+                        <field class="o_address_street" name="district" placeholder="District..."/>
+                        <field class="o_address_state" domain="[('country_id', '=', country_id)]" name="state_id" options='{"no_open": True, "no_create": True}' placeholder="State..." style="width: 45%"/>
+                        <field class="o_address_city" invisible="country_id != %(base.br)d" name="city_id" options='{"no_open": True, "no_create": True}' placeholder="City..." style="width: 50%"/>
+                        <field class="o_address_city" force_save="True" invisible="country_id == %(base.br)d" name="city" placeholder="City..." style="width: 50%"/>
+                        <field class="o_address_country" name="country_id" options='{"no_open": True, "no_create": True}' placeholder="Country..."/>
                         
-                        <field name="zip"/>
-                        <field name="street" placeholder="Endereço" class="o_address_street"
-                             />
-                        <field name="street_number" string="Nº" placeholder="Número"/>
-                        <field name="district" placeholder="Bairro"/>
-                        <field name="street2" placeholder="Complemento" class="o_address_street"
-                             />
-                        <field name="city" placeholder="Cidade" class="o_address_city"
-                             />
-                            <field name="state_id" class="o_address_state" placeholder="Estado"
-                            options="{'no_open': True, 'no_quick_create': True}"
-                            
-                            context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}" />
-                        <field name="country_id" placeholder="País"
-                            class="o_address_country"
-                            options='{"no_open": True, "no_create": True}'
-                             />
                     </group>
                 </group>
             </xpath>
