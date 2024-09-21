@@ -36,7 +36,7 @@
                 <attribute name="readonly">['|', ('cnpj_cpf', 'not in', [False, ""]), ('parent_id',
                     '!=', False)]</attribute>
             </field>
-                
+
             <xpath expr="//sheet/group/group" position="replace">
                 <group>
                     <group class="w-100">
@@ -46,22 +46,31 @@
                         <label for="cnpj_cpf" string="CNPJ" invisible="is_company != True"/>
                         <label for="cnpj_cpf" string="CPF" invisible="is_company == True"/>
                         <field name="cnpj_cpf" nolabel="1"/>
-                        <field name="legal_name" invisible="is_company != True" />   
+                        <field name="legal_name" invisible="is_company != True" />
                         <field name="rg" invisible="is_company == True" />
                         <field name="inscr_est" string="I.E" invisible="is_company != True" />
                     </group>
                     <group class="w-100" string="Endereço">
-                        <field name="street"/>
+                        <field name="street" invisible="1"/>
                         <field class="o_address_zip" name="zip" placeholder="CEP" style="width: 70%"/>
-                        <field class="o_address_street" name="street_name" placeholder="Street..."/>
-                        <field class="o_address_street" name="street_number" placeholder="Street number..."/>
-                        <field class="o_address_street" name="street2" placeholder="Complement..."/>
-                        <field class="o_address_street" name="district" placeholder="District..."/>
-                        <field class="o_address_state" domain="[('country_id', '=', country_id)]" name="state_id" options='{"no_open": True, "no_create": True}' placeholder="State..." style="width: 45%"/>
-                        <field class="o_address_city" invisible="country_id != %(base.br)d" name="city_id" options='{"no_open": True, "no_create": True}' placeholder="City..." style="width: 50%"/>
+                        <field class="o_address_street" name="street_name" placeholder="Endereço..."/>
+                        <field class="o_address_street" name="street_number" placeholder="Número..."/>
+                        <field class="o_address_street" name="street2" placeholder="Complemento..."/>
+                        <field class="o_address_street" name="district" placeholder="Bairro..."/>
+                        <field class="o_address_state" domain="[('country_id', '=', country_id)]"
+                               name="state_id" options='{"no_open": True, "no_create": True}'
+                               string="Estado"
+                               placeholder="Estado..."
+                               style="width: 45%"/>
+                        <field class="o_address_city" invisible="country_id != %(base.br)d"
+                               name="city_id"
+                               options='{"no_open": True, "no_create": True}'
+                               string="Cidade"
+                               placeholder="Cidade..."
+                               style="width: 50%"/>
                         <field class="o_address_city" force_save="True" invisible="country_id == %(base.br)d" name="city" placeholder="City..." style="width: 50%"/>
                         <field class="o_address_country" name="country_id" options='{"no_open": True, "no_create": True}' placeholder="Country..."/>
-                        
+
                     </group>
                 </group>
             </xpath>
