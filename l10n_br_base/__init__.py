@@ -13,7 +13,7 @@ _auto_install_l10n_original = account._auto_install_l10n
 
 
 def _auto_install_l10n_br_generic_module(env):
-    country_code = env.company.country_id.code
+    country_code = False
     if country_code and country_code.upper() == "BR":
         if (
             hasattr(env.user.company_id, "tax_framework")
