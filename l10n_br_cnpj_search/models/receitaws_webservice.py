@@ -1,6 +1,9 @@
 # Copyright 2022 KMEE - Luis Felipe Mileo
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from unidecode import unidecode
+# -*- coding: utf-8 -*-
+
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
 
@@ -54,6 +57,7 @@ class ReceitawsWebservice(models.AbstractModel):
             "city_id": city_id,
             "equity_capital": self.get_data(data, "capital_social"),
             "cnae_main_id": self._receitaws_get_cnae(data),
+            "country_id": self.env.ref("base.br").id,
             # "cnae_secondary_ids": (6, 0, self._receitaws_get_secondary_cnae(data)),
         }
 
@@ -88,14 +92,17 @@ class ReceitawsWebservice(models.AbstractModel):
             if state.id:
                 state_id = state.id
 
-            if data.get("municipio") != "":
-                city = self.env["res.city"].search(
-                    [
-                        ("name", "=ilike", data["municipio"].title()),
-                        ("state_id.id", "=", state_id),
-                    ]
+            if data.get("municipio"):
+                input_city = unidecode(data["municipio"].strip().lower())
+
+                all_cities = self.env["res.city"].search([("state_id.id", "=", state_id)])
+
+                city = next(
+                    (c for c in all_cities if unidecode(c.name.strip().lower()) == input_city),
+                    None
                 )
-                if len(city) == 1:
+
+                if city:
                     city_id = city.id
 
         return [state_id, city_id]
