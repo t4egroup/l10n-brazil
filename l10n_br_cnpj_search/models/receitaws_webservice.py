@@ -42,7 +42,7 @@ class ReceitawsWebservice(models.AbstractModel):
             "opening_date": self.get_data(data, "abertura"),
             "company_size": self.get_data(data, "porte"),
             "situation": self.get_data(data, "situacao"),
-            "associate_ids": self._get_associates(data),
+            # "associate_ids": self._get_associates(data),
             "email": self.get_data(data, "email", lower=True),
             "street_name": self.get_data(data, "logradouro", title=True),
             "street2": self.get_data(data, "complemento", title=True),

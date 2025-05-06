@@ -87,25 +87,23 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         values = webservice.import_data(data)
         values["provider_name"] = provider_name
         values["cnpj_cpf"] = cnpj_cpf
-        print("partner values before return", values)
+
         return values
 
     def default_get(self, fields):
         res = super().default_get(fields)
-        partner_id = self.env.context.get("default_partner_id")
-        partner_model = self.env["res.partner"]
-        partner = partner_model.browse(partner_id)
-        cnpj_cpf = punctuation_rm(partner.cnpj_cpf)
-        misc.punctuation_rm(self.zip)
-        values = self._get_partner_values(cnpj_cpf)
-        if "associate_ids" in values and isinstance(values["associate_ids"], list):
-            values["associate_ids"] = [
-                (0, 0, {"name": associate[2].get('name'), "qualification": associate[2].get('qualification'), "partner_id": partner_id})
-                for associate in values["associate_ids"]
-            ]
-        print("values", values)
-        res.update(values)
+        active_model = self.env.context.get("active_model")
+        if active_model == "res.partner":
+            partner_id = self.env.context.get("default_partner_id")
+            if partner_id:
+                partner_model = self.env["res.partner"]
+                partner = partner_model.browse(partner_id)
+                cnpj_cpf = punctuation_rm(partner.cnpj_cpf)
+                misc.punctuation_rm(self.zip)
+                values = self._get_partner_values(cnpj_cpf)
+                res.update(values)
         return res
+
 
     def action_update_partner(self):
         values_to_update = {
@@ -114,7 +112,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "opening_date": self.opening_date,
             "company_size": self.company_size,
             "situation": self.situation,
-            "associate_ids": self.associate_ids,
+            # "associate_ids": self.associate_ids,
             "inscr_est": self.inscr_est,
             "zip": self.zip,
             "street_name": self.street_name,
@@ -134,6 +132,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "cnae_secondary_ids": self.cnae_secondary_ids,
             "company_type": "company",
         }
+
         if self.child_ids:
             values_to_update["child_ids"] = [(6, 0, self.child_ids.ids)]
 
@@ -141,8 +140,6 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             key: value for key, value in values_to_update.items() if value
         }
         if non_empty_values:
-            self.partner_id.associate_ids.unlink()
-
             # Update partner only if there are non-empty values
             self.partner_id.write(non_empty_values)
         return {"type": "ir.actions.act_window_close"}
