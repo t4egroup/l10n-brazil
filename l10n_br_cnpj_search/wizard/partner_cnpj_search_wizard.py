@@ -98,8 +98,13 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         cnpj_cpf = punctuation_rm(partner.cnpj_cpf)
         misc.punctuation_rm(self.zip)
         values = self._get_partner_values(cnpj_cpf)
+        if "associate_ids" in values and isinstance(values["associate_ids"], list):
+            values["associate_ids"] = [
+                (0, 0, {"name": associate[2].get('name'), "qualification": associate[2].get('qualification'), "partner_id": partner_id})
+                for associate in values["associate_ids"]
+            ]
+        print("values", values)
         res.update(values)
-        print("return default get")
         return res
 
     def action_update_partner(self):

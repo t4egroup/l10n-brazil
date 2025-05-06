@@ -36,7 +36,6 @@ class ReceitawsWebservice(models.AbstractModel):
         fantasy_name = self.get_data(data, "fantasia", title=True)
         phone, mobile = self._receitaws_get_phones(data)
         state_id, city_id = self._get_state_city(data)
-        print(data)
         res = {
             "legal_name": legal_name,
             "name": fantasy_name if fantasy_name else legal_name,
@@ -117,7 +116,6 @@ class ReceitawsWebservice(models.AbstractModel):
     @api.model
     def _receitaws_get_secondary_cnae(self, data):
         cnae_secondary = []
-        print(data)
         for atividade in data.get("atividades_secundarias"):
             unformated = self.get_data(atividade, "code").split(".")
             formatted = ""
