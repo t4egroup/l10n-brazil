@@ -13,3 +13,4 @@ phonenumbers
 pyyaml
 unidecode
 workalendar
+astor
