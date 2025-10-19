@@ -134,9 +134,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             # Total value of products or services
             record.price_gross = round_curr.round(record.price_unit * record.quantity)
-
             record.amount_untaxed = record.price_gross - record.discount_value
-
             record.amount_fiscal = record.price_gross - record.discount_value
 
             record.amount_tax = record.amount_tax_not_included
@@ -321,7 +319,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "sale_price": self.product_id.list_price,
             "cost_price": self.product_id.standard_price,
         }
-
         self.price_unit = price.get(self.fiscal_operation_id.default_price_unit, 0.00)
 
     def __document_comment_vals(self):
@@ -425,7 +422,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.city_taxation_code_id = False
             self.uot_id = False
 
-        self._get_product_price()
+        if not self.price_unit:
+            self._get_product_price()
         self._onchange_fiscal_operation_id()
 
     def _prepare_fields_issqn(self, tax_dict):
